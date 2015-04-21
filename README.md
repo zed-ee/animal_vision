@@ -1,2 +1,2 @@
-# animal_vision
+# Animal Vision
 How animals see
