@@ -1,0 +1,2 @@
+<h1><%- app_data.messages[lang].index.h1 %></h1>
+<div class="button"><%- app_data.messages[lang].index.button %></div>
