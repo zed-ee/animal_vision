@@ -43,6 +43,6 @@ class App extends Stage.Global
       '/vision/:index':        (params) -> @vision.active(params)
       
     #@footer.html require('views/intro/footer')
-    @navigate('/vision/3', trans: 'right')
+    #@navigate('/vision/3', trans: 'right')
        
 module.exports = App
