@@ -24096,9 +24096,6 @@ if (typeof JSON !== 'object') {
           return this.vision.active(params);
         }
       });
-      this.navigate('/vision/3', {
-        trans: 'right'
-      });
     }
 
     return App;
