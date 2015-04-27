@@ -11,16 +11,6 @@ body
 * 
   -webkit-tap-highlight-color: rgba(0,0,0,0)
 
-for num in (1 2 3 4 5 6 7 8 9 10) {
-    font_size = num / 10
-    page_width = num * 192
-    page_height = num * 108
-	@media only screen and (min-height: page_height px) and (min-width: page_width px) {
-        body {
-            font-size: font_size em;
-        }
-    }    
-}
 
 
 body.stage 
@@ -42,13 +32,12 @@ body.stage
   &.startup > header
     background: url("assets/logo.png") no-repeat;
     z-index: 3;
-    height: 17em;
-    background-size: 38.3em 16.3em;
+    height: 10em;
     position:absolute;
     left: 0
     top: 0
     right: 0    
-    
+    background-size: 23em
     
     h2
       margin: 0

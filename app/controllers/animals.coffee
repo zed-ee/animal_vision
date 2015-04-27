@@ -6,7 +6,7 @@ class Intro extends Panel
     'animals'
     
   events:
-    'tap li': 'next'
+    'click li': 'next'
   constructor: ->
     super
 

@@ -1,4 +1,5 @@
 <nav>
+  <div class="restart"><%- app_data.messages[lang].vision.restart%></div>
   <div class="back"><%- app_data.messages[lang].vision.back%></div>
-  <div class="info"><%- app_data.messages[lang].vision[app_data.animals[@index].key] %></div>
+  <div class="info"><%- app_data.messages[lang].vision[app_data.animals[@index]] %></div>
 </nav>

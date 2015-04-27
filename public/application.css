@@ -60,56 +60,6 @@ body {
 * {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
-@media only screen and (min-height: 108px) and (min-width: 192px) {
-  body {
-    font-size: 0.1em;
-  }
-}
-@media only screen and (min-height: 216px) and (min-width: 384px) {
-  body {
-    font-size: 0.2em;
-  }
-}
-@media only screen and (min-height: 324px) and (min-width: 576px) {
-  body {
-    font-size: 0.3em;
-  }
-}
-@media only screen and (min-height: 432px) and (min-width: 768px) {
-  body {
-    font-size: 0.4em;
-  }
-}
-@media only screen and (min-height: 540px) and (min-width: 960px) {
-  body {
-    font-size: 0.5em;
-  }
-}
-@media only screen and (min-height: 648px) and (min-width: 1152px) {
-  body {
-    font-size: 0.6em;
-  }
-}
-@media only screen and (min-height: 756px) and (min-width: 1344px) {
-  body {
-    font-size: 0.7em;
-  }
-}
-@media only screen and (min-height: 864px) and (min-width: 1536px) {
-  body {
-    font-size: 0.8em;
-  }
-}
-@media only screen and (min-height: 972px) and (min-width: 1728px) {
-  body {
-    font-size: 0.9em;
-  }
-}
-@media only screen and (min-height: 1080px) and (min-width: 1920px) {
-  body {
-    font-size: 1em;
-  }
-}
 body.stage > header {
   display: none;
 }
@@ -128,12 +78,12 @@ body.stage > footer {
 .panel.startup > header {
   background: url("assets/logo.png") no-repeat;
   z-index: 3;
-  height: 17em;
-  background-size: 38.3em 16.3em;
+  height: 10em;
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
+  background-size: 23em;
 }
 .panel.startup > header h2 {
   margin: 0;
@@ -169,15 +119,15 @@ body {
   background: #000 url("assets/animals-intro.png");
   background-repeat: no-repeat;
   background-size: 100%;
-  background-position-y: center;
+  background-position: 0 0;
 }
 .startup h1 {
-  font-size: 6.5em;
+  font-size: 3.9em;
   font-family: "Montserrat";
   font-weight: bold;
   text-align: center;
   margin: auto;
-  margin-top: 3.3em;
+  margin-top: 3.9em;
   line-height: 1em;
   margin-bottom: 1.9em;
 }
@@ -191,7 +141,7 @@ body {
   box-shadow: 0 0.23em #ba541c;
   margin-top: 1em;
   font-family: "Montserrat";
-  font-size: 3.3em;
+  font-size: 2em;
   text-transform: uppercase;
   width: 8.2em;
   margin: 0 auto;
@@ -200,9 +150,11 @@ body {
   line-height: 2.6em;
 }
 .animals ul {
-  width: 113em;
-  margin: 18em auto 0;
+  width: 55em;
+  margin: 8em auto 0;
   padding: 0;
+  font-size: 1.3em;
+  font-weight: lighter;
 }
 .animals ul li {
   display: inline-block;
@@ -210,7 +162,7 @@ body {
   background-size: 53em;
   width: 10.6em;
 /* height: 12em; */
-  font-size: 2.1em;
+  font-size: 1em;
   text-align: center;
   padding-top: 11em;
 }
@@ -230,7 +182,7 @@ body {
   background-position-x: -42.9em;
 }
 .animals h2 {
-  font-size: 2em;
+  font-size: 1.23em;
   color: #dbdbdb;
   font-weight: lighter;
   text-align: center;
@@ -250,92 +202,173 @@ body {
   right: 0;
   bottom: 0;
   height: 7em;
-  font-size: 2em;
+  font-size: 1.26em;
   text-transform: uppercase;
+  background: #000;
+  height: 6em;
 }
-.vision footer .info {
+.vision footer nav {
+  margin-top: -2.7em;
+}
+.vision footer nav .info {
   text-align: center;
   padding-left: 19.7em;
   padding-top: 4em;
   background: url("assets/info.png") no-repeat;
-  background-position-x: 27em;
+  background-position-x: 45%;
+  background-size: 5em;
 }
-.vision footer .back {
+.vision footer nav .back {
   float: right;
   margin-right: 4.8em;
   display: block;
   margin-top: 4.1em;
 }
+.vision footer nav .restart {
+  float: left;
+  margin-left: 4.8em;
+  display: block;
+  margin-top: 4.1em;
+}
+.vision video,
+.vision canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
 .vision header {
+  z-index: 9;
+  position: relative;
+}
+.vision header.camera >h2 {
+  background-image: url("assets/camera.png");
+  width: 4em;
+  height: 4em;
+  float: right;
+  margin-right: 2em;
+  background-size: 4em;
+  margin-right: 5em;
+}
+.vision section {
+  width: 24em;
+  margin: 6em auto;
+  background: #000;
+  z-index: 26;
+  display: block;
+  position: relative;
+  padding: 3em 10em 3em 18em;
+  font-size: 1.2em;
   display: none;
+  -moz-box-shadow: 0em 0.4em #333;
+  -webkit-box-shadow: 0em 0.4em #333;
+  box-shadow: 0em 0.4em #333;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  border-radius: 0.5em;
 }
-.blur {
-  -webkit-filter: blur(3px);
-  -moz-filter: blur(3px);
-  -o-filter: blur(3px);
-  -ms-filter: blur(3px);
-  filter: blur(3px);
+.vision section .image {
+  background: url("assets/animals.png") no-repeat;
+  background-size: 53em;
+  width: 10.6em;
+  height: 10.6em;
+  font-size: 1em;
+  float: left;
+  margin-left: -13.6em;
 }
-.brightness {
-  -webkit-filter: brightness(5);
-  -moz-filter: brightness(5);
-  -o-filter: brightness(5);
-  -ms-filter: brightness(5);
-  filter: brightness(5);
+.vision section .image.image-0 {
+  background-position-x: 0em;
 }
-.contrast {
-  -webkit-filter: contrast(8);
-  -moz-filter: contrast(8);
-  -o-filter: contrast(8);
-  -ms-filter: contrast(8);
-  filter: contrast(8);
+.vision section .image.image-1 {
+  background-position-x: -10.7em;
 }
-.hue-rotate {
-  -webkit-filter: hue-rotate(90deg);
-  -moz-filter: hue-rotate(90deg);
-  -o-filter: hue-rotate(90deg);
-  -ms-filter: hue-rotate(90deg);
-  filter: hue-rotate(90deg);
+.vision section .image.image-2 {
+  background-position-x: -21.4em;
 }
-.hue-rotate2 {
-  -webkit-filter: hue-rotate(180deg);
-  -moz-filter: hue-rotate(180deg);
-  -o-filter: hue-rotate(180deg);
-  -ms-filter: hue-rotate(180deg);
-  filter: hue-rotate(180deg);
+.vision section .image.image-3 {
+  background-position-x: -32.1em;
 }
-.hue-rotate3 {
-  -webkit-filter: hue-rotate(270deg);
-  -moz-filter: hue-rotate(270deg);
-  -o-filter: hue-rotate(270deg);
-  -ms-filter: hue-rotate(270deg);
-  filter: hue-rotate(270deg);
+.vision section .image.image-4 {
+  background-position-x: -42.9em;
 }
-.saturate {
-  -webkit-filter: saturate(10);
-  -moz-filter: saturate(10);
-  -o-filter: saturate(10);
-  -ms-filter: saturate(10);
-  filter: saturate(10);
+video.snake {
+  -webkit-filter: hue-rotate(235deg) invert() grayscale(30%);
 }
-.grayscale {
-  -webkit-filter: grayscale(1);
-  -moz-filter: grayscale(1);
-  -o-filter: grayscale(1);
-  -ms-filter: grayscale(1);
-  filter: grayscale(1);
+video.dog {
+  -webkit-filter: brightness(117%) hue-rotate(-91deg) contrast(86%) grayscale(80%);
 }
-.sepia {
-  -webkit-filter: sepia(1);
-  -moz-filter: sepia(1);
-  -o-filter: sepia(1);
-  -ms-filter: sepia(1);
-  filter: sepia(1);
+video.fish {
+  -webkit-filter: contrast(182%) grayscale(100%);
 }
-.invert {
-  -webkit-filter: invert(1);
-  -moz-filter: invert(1);
-  -o-filter: invert(1);
-  -ms-filter: invert(1);
-  filter: invert(1);
+video.bird {
+  -webkit-filter: brightness(107%) hue-rotate(-40deg) contrast(143%);
+}
+video.bee {
+  -webkit-filter: blur(1em) hue-rotate(235deg);
+}
+@media only screen and (min-width: 128px) {
+  body {
+    font-size: 0.1em;
+  }
+}
+@media only screen and (min-width: 256px) {
+  body {
+    font-size: 0.2em;
+  }
+}
+@media only screen and (min-width: 384px) {
+  body {
+    font-size: 0.3em;
+  }
+}
+@media only screen and (min-width: 512px) {
+  body {
+    font-size: 0.4em;
+  }
+}
+@media only screen and (min-width: 640px) {
+  body {
+    font-size: 0.5em;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 0.6em;
+  }
+}
+@media only screen and (min-width: 896px) {
+  body {
+    font-size: 0.7em;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  body {
+    font-size: 0.8em;
+  }
+}
+@media only screen and (min-width: 1152px) {
+  body {
+    font-size: 0.9em;
+  }
+}
+@media only screen and (min-width: 1280px) {
+  body {
+    font-size: 1em;
+  }
+}
+@media only screen and (min-width: 1408px) {
+  body {
+    font-size: 1.1em;
+  }
+}
+@media only screen and (min-width: 1536px) {
+  body {
+    font-size: 1.2em;
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+  .panelx.startup > header {
+    background-size: 19.15em 8.15em;
+  }
 }

@@ -6,7 +6,7 @@ class Intro extends Panel
     'startup'
     
   events:
-    'tap .button': 'next'   
+    'click .button': 'next'   
   constructor: ->
     super
 

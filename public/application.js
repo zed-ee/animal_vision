@@ -23853,7 +23853,7 @@ if (typeof JSON !== 'object') {
     Intro.prototype.className = 'animals';
 
     Intro.prototype.events = {
-      'tap li': 'next'
+      'click li': 'next'
     };
 
     function Intro() {
@@ -23897,7 +23897,7 @@ if (typeof JSON !== 'object') {
     Intro.prototype.className = 'startup';
 
     Intro.prototype.events = {
-      'tap .button': 'next'
+      'click .button': 'next'
     };
 
     function Intro() {
@@ -23940,16 +23940,23 @@ if (typeof JSON !== 'object') {
 
     Intro.prototype.events = {
       'click .back': 'next',
+      'click .info': 'info',
+      'click .popup': 'close',
+      'click .camera': 'switchCam',
       'load video': 'snapshot'
     };
 
     Intro.prototype.elements = {
-      'video': 'video'
+      'video': 'video',
+      'section': 'popup'
     };
 
     function Intro() {
+      this.info = bind(this.info, this);
+      this.close = bind(this.close, this);
       this.render = bind(this.render, this);
       this.getUserMedia = bind(this.getUserMedia, this);
+      this.switchCam = bind(this.switchCam, this);
       this.success = bind(this.success, this);
       this.fallback = bind(this.fallback, this);
       this.snapshot = bind(this.snapshot, this);
@@ -23963,22 +23970,47 @@ if (typeof JSON !== 'object') {
       this.ctx = (ref = this.canvas) != null ? ref[0].getContext('2d') : void 0;
       this.index = 0;
       this.footer.html(require('views/intro/vision_footer')(this));
-      if (navigator.getUserMedia == null) {
-        navigator.getUserMedia = navigator.webkitGetUserMedia;
-      }
-      if (window.requestAnimationFrame == null) {
-        window.requestAnimationFrame = window.webkitRequestAnimationFrame;
-      }
-      if (navigator.getUserMedia) {
-        this.getUserMedia();
-      } else {
-        this.fallback();
-      }
+      this.mediaIndex = 0;
+      MediaStreamTrack.getSources((function(_this) {
+        return function(sourceInfos) {
+          var i, len, sourceInfo;
+          _this.videoSources = [];
+          for (i = 0, len = sourceInfos.length; i < len; i++) {
+            sourceInfo = sourceInfos[i];
+            if (sourceInfo.kind === 'video') {
+              console.log(sourceInfo.id, sourceInfo.label || 'camera');
+              _this.videoSources.push(sourceInfo.id);
+            }
+          }
+          if (_this.videoSources.length > 1) {
+            _this.header.addClass("camera");
+          }
+          if (navigator.getUserMedia == null) {
+            navigator.getUserMedia = navigator.webkitGetUserMedia;
+          }
+          if (window.requestAnimationFrame == null) {
+            window.requestAnimationFrame = window.webkitRequestAnimationFrame;
+          }
+          if (navigator.getUserMedia && _this.videoSources.length > 0) {
+            return _this.getUserMedia(_this.mediaIndex);
+          } else {
+            return _this.fallback();
+          }
+        };
+      })(this));
+      $(window).resize((function(_this) {
+        return function() {
+          if (_this.canvas) {
+            _this.canvas.attr('width', window.innerWidth).attr('height', window.innerHeight);
+          }
+          return _this.video.attr('width', window.innerWidth).attr('height', window.innerHeight);
+        };
+      })(this));
     }
 
     Intro.prototype.snapshot = function() {
       if (this.ctx) {
-        this.ctx.drawImage(this.video[0], 0, 0);
+        this.ctx.drawImage(this.video[0], 0, 0, window.innerWidth, window.innerHeight);
         return this.rafID = window.requestAnimationFrame(this.snapshot);
       }
     };
@@ -23989,13 +24021,28 @@ if (typeof JSON !== 'object') {
     };
 
     Intro.prototype.success = function(stream) {
+      this.stream = stream;
       this.video[0].src = window.URL.createObjectURL(stream);
       return this.snapshot();
     };
 
-    Intro.prototype.getUserMedia = function() {
+    Intro.prototype.switchCam = function() {
+      return this.getUserMedia(++this.mediaIndex % this.videoSources.length);
+    };
+
+    Intro.prototype.getUserMedia = function(index) {
+      if (this.stream) {
+        this.video[0].src = null;
+        this.stream.stop();
+      }
       return navigator.getUserMedia({
-        video: true
+        video: {
+          optional: [
+            {
+              sourceId: this.videoSources[index]
+            }
+          ]
+        }
       }, this.success, this.fallback);
     };
 
@@ -24003,11 +24050,21 @@ if (typeof JSON !== 'object') {
       return this.html(require('views/intro/vision')(this));
     };
 
+    Intro.prototype.close = function() {
+      return this.popup.hide();
+    };
+
+    Intro.prototype.info = function() {
+      return this.popup.html(require('views/intro/vision_info')(this)).show();
+    };
+
     Intro.prototype.active = function(params) {
+      this.index = params.index;
       this.video.removeClass();
-      this.video.addClass(app_data.animals[params.index].filters);
-      this.log("active", this.video[0].className);
+      this.video.addClass(app_data.animals[this.index]);
+      this.log("active", this.video[0].className, this.index);
       this.footer.html(require('views/intro/vision_footer')(this));
+      this.popup.hide();
       return Intro.__super__.active.apply(this, arguments);
     };
 
@@ -24048,8 +24105,8 @@ if (typeof JSON !== 'object') {
     extend(App, superClass);
 
     App.prototype.events = {
-      'tap .set_lang': 'set_lang',
-      'tap .restart': 'restart'
+      'click .set_lang': 'set_lang',
+      'click .restart': 'restart'
     };
 
     App.prototype.set_lang = function(e) {
@@ -24333,17 +24390,17 @@ if (typeof JSON !== 'object') {
   }
   (function() {
     (function() {
-      var i, idx, len, ref, val;
+      var i, len, ref, val;
     
       __out.push('<ul>\n  ');
     
       ref = app_data.animals;
-      for (idx = i = 0, len = ref.length; i < len; idx = ++i) {
-        val = ref[idx];
+      for (i = 0, len = ref.length; i < len; i++) {
+        val = ref[i];
         __out.push('\n  <li class="');
-        __out.push(__sanitize(val.key));
+        __out.push(__sanitize(val));
         __out.push('">');
-        __out.push(__sanitize(app_data.messages[lang].animals[val.key]));
+        __out.push(__sanitize(app_data.messages[lang].animals[val]));
         __out.push('</li>\n  ');
       }
     
@@ -24453,7 +24510,7 @@ module.exports = content;}, "views/intro/vision": function(exports, require, mod
   }
   (function() {
     (function() {
-      __out.push('<video autoplay loop muted>\n</video>\n<canvas>\n</canvas>');
+      __out.push('<video autoplay loop muted>\n</video>\n<canvas>\n</canvas>\n<section class="popup">\n</section>');
     
     }).call(this);
     
@@ -24500,15 +24557,78 @@ module.exports = content;}, "views/intro/vision_footer": function(exports, requi
   }
   (function() {
     (function() {
-      __out.push('<nav>\n  <div class="back">');
+      __out.push('<nav>\n  <div class="restart">');
+    
+      __out.push(app_data.messages[lang].vision.restart);
+    
+      __out.push('</div>\n  <div class="back">');
     
       __out.push(app_data.messages[lang].vision.back);
     
       __out.push('</div>\n  <div class="info">');
     
-      __out.push(app_data.messages[lang].vision[app_data.animals[this.index].key]);
+      __out.push(app_data.messages[lang].vision[app_data.animals[this.index]]);
     
       __out.push('</div>\n</nav>');
+    
+    }).call(this);
+    
+  }).call(__obj);
+  __obj.safe = __objSafe, __obj.escape = __escape;
+  return __out.join('');
+};
+module.exports = content;}, "views/intro/vision_info": function(exports, require, module) {var content = function(__obj) {
+  if (!__obj) __obj = {};
+  var __out = [], __capture = function(callback) {
+    var out = __out, result;
+    __out = [];
+    callback.call(this);
+    result = __out.join('');
+    __out = out;
+    return __safe(result);
+  }, __sanitize = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else if (typeof value !== 'undefined' && value != null) {
+      return __escape(value);
+    } else {
+      return '';
+    }
+  }, __safe, __objSafe = __obj.safe, __escape = __obj.escape;
+  __safe = __obj.safe = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else {
+      if (!(typeof value !== 'undefined' && value != null)) value = '';
+      var result = new String(value);
+      result.ecoSafe = true;
+      return result;
+    }
+  };
+  if (!__escape) {
+    __escape = __obj.escape = function(value) {
+      return ('' + value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    };
+  }
+  (function() {
+    (function() {
+      __out.push('<h2>');
+    
+      __out.push(app_data.messages[lang].info_title[app_data.animals[this.index]]);
+    
+      __out.push('</h2>\n<div class="image image-');
+    
+      __out.push(__sanitize(this.index));
+    
+      __out.push('"></div>\n<div class="message">');
+    
+      __out.push(app_data.messages[lang].info_message[app_data.animals[this.index]]);
+    
+      __out.push('</div>\n');
     
     }).call(this);
     

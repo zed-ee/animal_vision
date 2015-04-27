@@ -1,6 +1,6 @@
 <ul>
-  <% for val, idx in app_data.animals: %>
-  <li class="<%= val.key %>"><%= app_data.messages[lang].animals[val.key] %></li>
+  <% for val in app_data.animals: %>
+  <li class="<%= val %>"><%= app_data.messages[lang].animals[val] %></li>
   <% end %>
 </ul>
 <h2><%- app_data.messages[lang].animals.text %></h2>

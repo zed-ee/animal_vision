@@ -9,8 +9,8 @@ Vision = require('controllers/vision')
 
 class App extends Stage.Global
   events:
-    'tap .set_lang': 'set_lang'   
-    'tap .restart': 'restart'   
+    'click .set_lang': 'set_lang'   
+    'click .restart': 'restart'   
   
   set_lang: (e) =>
     @log(e)
@@ -43,6 +43,6 @@ class App extends Stage.Global
       '/vision/:index':        (params) -> @vision.active(params)
       
     #@footer.html require('views/intro/footer')
-    #@navigate('/vision/3', trans: 'right')
+    #@navigate('/vision/2', trans: 'right')
        
 module.exports = App
