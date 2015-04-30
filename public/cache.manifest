@@ -1,0 +1,36 @@
+CACHE MANIFEST
+# v1.0.0
+CACHE:
+./application.js
+./application.css
+./index.html
+./data.js
+./assets/montserrat.woff
+./assets/animals-intro.png  
+./assets/camera.png  
+./assets/honeycomb.png                     
+./assets/logo.png 
+./assets/animals.png        
+./assets/close.png  
+./assets/HURTIGRUTEN SPRING-HD.USA-SD.mp4 
+./assets/info.png   
+./effects/bird.json
+./effects/dog2.json  
+./effects/dog.json  
+./effects/fish.json  
+./effects/plane.json
+./icon.png
+./libs/FresnelShader.js
+./libs/SimpleShader.js
+./libs/SimpleShader2.js
+./libs/SphereShader.js
+./libs/base.js
+./libs/cameracontroller.js
+./libs/matrix4x4.js
+./libs/shader.js
+./libs/three.js
+./libs/three.min.js
+
+
+NETWORK:
+https://apps.zed.ee/animal_vision
