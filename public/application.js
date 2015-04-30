@@ -23948,10 +23948,18 @@ if (typeof JSON !== 'object') {
 
     Intro.prototype.elements = {
       'video': 'video',
+      'canvas.copy': 'canvas_copy',
+      'canvas.final': 'canvas_final',
+      'div.extra': 'extra',
       'section': 'popup'
     };
 
+    Intro.prototype.backgroundColor = [0.1, 0.1, 0.1, 1.0];
+
+    Intro.prototype.foregroundColor = [0.0 / 255.0, 175.0 / 255.0, 255.0 / 255.0, 1.0];
+
     function Intro() {
+      this.initTreeJs = bind(this.initTreeJs, this);
       this.info = bind(this.info, this);
       this.close = bind(this.close, this);
       this.render = bind(this.render, this);
@@ -23959,15 +23967,19 @@ if (typeof JSON !== 'object') {
       this.switchCam = bind(this.switchCam, this);
       this.success = bind(this.success, this);
       this.fallback = bind(this.fallback, this);
+      this.fishEye = bind(this.fishEye, this);
       this.snapshot = bind(this.snapshot, this);
       var ref;
       Intro.__super__.constructor.apply(this, arguments);
       this.render();
-      if (this.canvas) {
-        this.canvas.attr('width', window.innerWidth).attr('height', window.innerHeight);
+      if (this.canvas_copy) {
+        this.canvas_copy.attr('width', window.innerWidth).attr('height', window.innerHeight);
+        this.canvas_final.attr('width', window.innerWidth).attr('height', window.innerHeight);
       }
       this.video.attr('width', window.innerWidth).attr('height', window.innerHeight);
-      this.ctx = (ref = this.canvas) != null ? ref[0].getContext('2d') : void 0;
+      this.w = this.canvas_final.width();
+      this.h = this.canvas_final.height();
+      this.ctx_copy = (ref = this.canvas_copy) != null ? ref[0].getContext('2d') : void 0;
       this.index = 0;
       this.footer.html(require('views/intro/vision_footer')(this));
       this.mediaIndex = 0;
@@ -24006,23 +24018,79 @@ if (typeof JSON !== 'object') {
           return _this.video.attr('width', window.innerWidth).attr('height', window.innerHeight);
         };
       })(this));
+      this.models = [];
     }
 
     Intro.prototype.snapshot = function() {
-      if (this.ctx) {
-        this.ctx.drawImage(this.video[0], 0, 0, window.innerWidth, window.innerHeight);
+      if (this.ctx_copy) {
+        this.ctx_copy.drawImage(this.video[0], 0, 0, window.innerWidth, window.innerHeight);
+        if (this.gl && this.shaders.length > 0) {
+          this.updateTexture();
+        }
+        if (this.renderer) {
+          this.renderScene();
+        }
         return this.rafID = window.requestAnimationFrame(this.snapshot);
       }
     };
 
+    Intro.prototype.fishEye = function() {
+      var _this, centerX, centerY, distX, distY, h, i, imgData, j, origX, origY, r2, radius, radius2, ref, ref1, refractionIndex, w, x, xa, xb, y, ya, yb, z, z2;
+      w = this.canvas_final.width();
+      h = this.canvas_final.height();
+      refractionIndex = 0.5;
+      radius = w / 5;
+      radius2 = radius * radius;
+      centerX = w / 2;
+      centerY = h / 2;
+      origX = 0;
+      origY = 0;
+      _this = this;
+      for (x = i = 0, ref = w; 0 <= ref ? i <= ref : i >= ref; x = 0 <= ref ? ++i : --i) {
+        for (y = j = 0, ref1 = h; 0 <= ref1 ? j <= ref1 : j >= ref1; y = 0 <= ref1 ? ++j : --j) {
+          distX = x - centerX;
+          distY = y - centerY;
+          r2 = distX * distX + distY * distY;
+          origX = x;
+          origY = y;
+          if (r2 > 0.0 && r2 < radius2) {
+            z2 = radius2 - r2;
+            z = Math.sqrt(z2);
+            xa = Math.asin(distX / Math.sqrt(distX * distX + z2));
+            xb = xa - xa * refractionIndex;
+            ya = Math.asin(distY / Math.sqrt(distY * distY + z2));
+            yb = ya - ya * refractionIndex;
+            origX = origX - z * Math.tan(xb);
+            origY = origY - z * Math.tan(yb);
+          }
+          imgData = _this.ctx_copy.getImageData(origX, origY, 1, 1);
+          imgData[0] = 0;
+          _this.ctx_final.putImageData(imgData, x, y);
+        }
+      }
+      return null;
+    };
+
     Intro.prototype.fallback = function(e) {
       this.video[0].src = app_data.fallback_video;
+      if (this.gl) {
+        this.initGL();
+      }
+      if (!this.gl) {
+        this.initTreeJs();
+      }
       return this.snapshot();
     };
 
     Intro.prototype.success = function(stream) {
       this.stream = stream;
       this.video[0].src = window.URL.createObjectURL(stream);
+      if (this.gl) {
+        this.initGL();
+      }
+      if (!this.gl) {
+        this.initTreeJs();
+      }
       return this.snapshot();
     };
 
@@ -24060,11 +24128,14 @@ if (typeof JSON !== 'object') {
 
     Intro.prototype.active = function(params) {
       this.index = params.index;
-      this.video.removeClass();
-      this.video.addClass(app_data.animals[this.index]);
+      this.canvas_final.removeClass();
+      this.canvas_final.addClass(app_data.animals[this.index] + " final");
+      this.extra.removeClass();
+      this.extra.addClass(app_data.animals[this.index] + " extra");
       this.log("active", this.video[0].className, this.index);
       this.footer.html(require('views/intro/vision_footer')(this));
       this.popup.hide();
+      this.loadModel(app_data.distortions[this.index]);
       return Intro.__super__.active.apply(this, arguments);
     };
 
@@ -24072,6 +24143,67 @@ if (typeof JSON !== 'object') {
       return this.navigate('/animals', {
         trans: 'left'
       });
+    };
+
+    Intro.prototype.loadModel = function(file) {
+      var loader;
+      loader = new THREE.JSONLoader();
+      return loader.load("effects/" + file, (function(_this) {
+        return function(geometry, materials) {
+          _this.model = new THREE.Mesh(geometry, _this.faceMaterial);
+          _this.model.rotation.z = 180 * (Math.PI / 180);
+          return _this.scene.add(_this.model);
+        };
+      })(this));
+    };
+
+    Intro.prototype.initTreeJs = function() {
+      var shader, uniforms;
+      this.renderer = new THREE.WebGLRenderer({
+        canvas: this.canvas_final[0]
+      });
+      this.texture = new THREE.VideoTexture(this.video[0]);
+      this.texture.minFilter = this.texture.magFilter = THREE.LinearFilter;
+      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+      this.camera.position.y = 0;
+      this.camera.position.z = -3;
+      this.camera.rotation.x = 180 * (Math.PI / 180);
+      this.scene = new THREE.Scene();
+      shader = THREE.SimpleShader;
+      uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+      uniforms["texture1"].value = this.texture;
+      return this.faceMaterial = new THREE.ShaderMaterial({
+        uniforms: uniforms,
+        vertexShader: shader.vertexShader,
+        fragmentShader: shader.fragmentShader
+      });
+
+      /*
+       * plane
+      @log @h,@w
+      @plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(6, 4), faceMaterial);
+      @plane.overdraw = true;
+      
+      @scene.add(@plane);
+      
+      #sphere
+      shader2 = THREE.SimpleShader2;
+      uniforms = THREE.UniformsUtils.clone( shader.uniforms );
+      uniforms[ "texture1" ].value = @texture
+      
+      parameters = { fragmentShader: shader2.fragmentShader, vertexShader: shader2.vertexShader, uniforms: uniforms };
+      material = new THREE.ShaderMaterial( parameters );
+      
+      
+      @sphere = new THREE.Mesh( new THREE.SphereGeometry( 10, 32, 32 ), material );
+      @sphere.position.z = -4
+      @scene.add( @sphere );
+      #
+       */
+    };
+
+    Intro.prototype.renderScene = function() {
+      return this.renderer.render(this.scene, this.camera);
     };
 
     return Intro;
@@ -24510,7 +24642,7 @@ module.exports = content;}, "views/intro/vision": function(exports, require, mod
   }
   (function() {
     (function() {
-      __out.push('<video autoplay loop muted>\n</video>\n<canvas>\n</canvas>\n<section class="popup">\n</section>');
+      __out.push('<video autoplay loop muted>\n</video>\n<canvas class="copy">\n</canvas>\n<canvas class="final">\n</canvas>\n<div class="extra">\n</div>\n<section class="popup">\n</section>');
     
     }).call(this);
     

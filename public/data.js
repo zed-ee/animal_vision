@@ -1,10 +1,12 @@
 app_data = {
-    fallback_video: 'assets/HURTIGRUTEN SPRING-HD USA-SD.webm',
+    fallback_video: 'assets/HURTIGRUTEN SPRING-HD-USA-SD.mp4',
     languages: [ 
         { code: 'ee', 'index': 1 },
         { code: 'gb', 'index': 2 },
     ],        
     animals: ["fish", "bird", "snake", "bee", "dog"],
+    distortions: ["fish.json", "bird.json", "plane.json", "bird.json", "dog2.json"],
+    fov: [],
     messages: {
         et: {
             index: {
@@ -41,11 +43,11 @@ app_data = {
               dog: 'Kuidas koer näeb?',
             },
              info_message: {
-              fish: 'Lorem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline proovitekst juba alates 1500. aastatest, mil tundmatu printija võttis hulga suvalist teksti, et teha trükinäidist. Lorem Ipsum ei ole ainult viis sajandit säilinud, vaid on ka edasi kandunud elektroonilisse trükiladumisse, jäädes sealjuures peaaegu muutumatuks. See sai tuntuks 1960. aastatel.',
-              bird: 'Lorem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline proovitekst juba alates 1500. aastatest, mil tundmatu printija võttis hulga suvalist teksti, et teha trükinäidist. Lorem Ipsum ei ole ainult viis sajandit säilinud, vaid on ka edasi kandunud elektroonilisse trükiladumisse, jäädes sealjuures peaaegu muutumatuks. See sai tuntuks 1960. aastatel.',
-              snake: 'Lorem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline proovitekst juba alates 1500. aastatest, mil tundmatu printija võttis hulga suvalist teksti, et teha trükinäidist. Lorem Ipsum ei ole ainult viis sajandit säilinud, vaid on ka edasi kandunud elektroonilisse trükiladumisse, jäädes sealjuures peaaegu muutumatuks. See sai tuntuks 1960. aastatel.',
-              bee: 'Lorem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline proovitekst juba alates 1500. aastatest, mil tundmatu printija võttis hulga suvalist teksti, et teha trükinäidist. Lorem Ipsum ei ole ainult viis sajandit säilinud, vaid on ka edasi kandunud elektroonilisse trükiladumisse, jäädes sealjuures peaaegu muutumatuks. See sai tuntuks 1960. aastatel.',
-              dog: 'Lorem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline proovitekst juba alates 1500. aastatest, mil tundmatu printija võttis hulga suvalist teksti, et teha trükinäidist. Lorem Ipsum ei ole ainult viis sajandit säilinud, vaid on ka edasi kandunud elektroonilisse trükiladumisse, jäädes sealjuures peaaegu muutumatuks. See sai tuntuks 1960. aastatel.',
+              fish: 'Kala nägemisväli on suur – horisontaalselt umbes 170º, vertikaalselt kuni 150º. Kalad on lühinägelikud ning selges vees näevad umbes 15 m kaugusele. Nägemisvõime siiski erineb liigiti, näiteks röövkalade nägemine on teravam. Kui valgustus on hea, siis suudavad mõned kalaliigid värve eristada, kuid näiteks haid näevad maailma mustvalgelt.',
+              bird: 'Lindude nägemisteravus on inimeste omast umbes viis korda suurem. Lennul ja sukeldumisel kaitseb nende silmi pilkkile, mis veelindudel on täiesti läbipaistev ning parandab vee all nägemisteravust. Linnud ei näe värve mitte ainult palju selgemalt kui inimesed, vaid lisaks sellele näevad nad ultraviolettvalgust. Lisaks sellele on lindudel suur nägemisväli, näiteks kotkastel 340º.',
+              snake: 'Maod on lühinägelikud, kuid liikumist tajuvad nad hästi. Esemete selgemaks nägemiseks ei muuda maod silmaläätse kuju, vaid liigutavad silmaläätse ennast kas lähemale või kaugemale, vastavalt vajadusele. Mõnedel maoliikidel paiknevad silmade ja sõõrmete vahel soojustundlikud lohud ehk termolokaatorid, mille abil nad näevad infrapunavalgust. Neis lohkudes asuvad termoretseptorite nime kandvad rakud, mille abil maod tunnetavad saaklooma kehasoojust. Soojustundlikest lohkudest liigub informatsioon edasi peaajju, kus tekib kujutis.',
+              bee: 'Mesilastel on kokku 5 silma: paar liitsilmi pea külgedel ning kolm lihtsilma pea ülaosas. Liitsilmad koosnevad üksikutest lihtsilmadest, mida töömesilasel on umbes 4000–5000. Kuigi üksiksilmad annavad kokku tervikliku kujutise, siis iga üksiksilm eraldi näeb vaid osa kujutisest. Mesilaste liitsilmad on lühinägelikud. Erinevalt inimestest näevad mesilased ultraviolettvalgust.',
+              dog: 'Koertel on silmades kahesuguseid värvitundlike kolvikesi. Nad näevad maailma kollastes, sinistes ja hallides toonides. Kuna koerte silmad asetsevad pea külgedel, siis on nende nägemisväli inimese omast suurem – umbes 240º. Samuti näevad koerad hämaras inimesest tunduvalt paremini. Samas on koerte nägemisteravus vaid umbes 20%–40% inimese omast.',
 
             },
            

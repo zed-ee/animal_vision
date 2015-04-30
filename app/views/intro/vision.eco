@@ -1,6 +1,10 @@
 <video autoplay loop muted>
 </video>
-<canvas>
+<canvas class="copy">
 </canvas>
+<canvas class="final">
+</canvas>
+<div class="extra">
+</div>
 <section class="popup">
 </section>

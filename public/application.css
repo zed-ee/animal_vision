@@ -49,6 +49,13 @@ body.stage > footer {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url("assets/montserrat.woff") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
 body {
   font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif;
   overflow: hidden;
@@ -231,7 +238,8 @@ body {
   margin-top: 4.1em;
 }
 .vision video,
-.vision canvas {
+.vision canvas,
+.vision div.extra {
   position: absolute;
   top: 0;
   left: 0;
@@ -292,20 +300,25 @@ body {
 .vision section .image.image-4 {
   background-position-x: -42.9em;
 }
-video.snake {
+.final.snake {
   -webkit-filter: hue-rotate(235deg) invert() grayscale(30%);
 }
-video.dog {
+.final.dog {
   -webkit-filter: brightness(117%) hue-rotate(-91deg) contrast(86%) grayscale(80%);
 }
-video.fish {
+.final.fish {
   -webkit-filter: contrast(182%) grayscale(100%);
 }
-video.bird {
+.final.bird {
   -webkit-filter: brightness(107%) hue-rotate(-40deg) contrast(143%);
 }
-video.bee {
-  -webkit-filter: blur(1em) hue-rotate(235deg);
+.final.bee {
+  -webkit-filter: blur(0.5em) hue-rotate(235deg);
+}
+.extra.bee {
+  background: url("assets/honeycomb.png");
+  background-size: 12em;
+  opacity: 0.04;
 }
 @media only screen and (min-width: 128px) {
   body {
