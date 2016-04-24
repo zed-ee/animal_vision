@@ -13,17 +13,16 @@ class App extends Stage.Global
     'click .restart': 'restart'   
   
   set_lang: (e) =>
-    @log(e)
-    @navigate('/'+window.lang, trans: 'right')
-    window.lang = if window.lang == 'en' then 'et' else 'en'
-    @lang = window.lang
-    @log(window.lang)
-    @intro.active()
+    lang = if window.lang == 'en' then 'et' else 'en'
+    top.location.href= top.location.pathname + "?" + lang
     
   restart: (e) =>
-    @navigate('/', trans: 'right')
-    
+    #@navigate('/', trans: 'right')
+    window.location.reload(true)
+
   constructor: (params)->
+    lang = location.search || "?et"
+    window.lang = lang.substr(1)  
     super
     @mic = null
     #@header.append(@spectrum)

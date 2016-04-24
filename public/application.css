@@ -251,6 +251,7 @@ body {
   margin-right: 2em;
   background-size: 4em;
   margin-right: 5em;
+  display: none;
 }
 .vision section {
   width: 24em;

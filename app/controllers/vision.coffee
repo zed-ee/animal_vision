@@ -67,21 +67,19 @@ class Intro extends Panel
         
       navigator.getUserMedia ?= navigator.webkitGetUserMedia
       window.requestAnimationFrame ?= window.webkitRequestAnimationFrame
-      
+      if @videoSources.length > 1
+        @mediaIndex = 1;
       if navigator.getUserMedia && @videoSources.length > 0 then @getUserMedia(@mediaIndex) else @fallback()
     )
     
     $(window).resize(() =>
-      if @canvas
-        @canvas
-          .attr('width', window.innerWidth)
-          .attr('height', window.innerHeight);
-    
-      @video
-        .attr('width', window.innerWidth)
-        .attr('height', window.innerHeight)
-      
+       window.location.reload()
     )
+    $(window).on("orientationchange", () =>
+       window.location.reload()
+    )
+    @models = []
+    	
     @models = []
     
 
@@ -164,7 +162,8 @@ class Intro extends Panel
     if @stream
       @video[0].src = null;
       @stream.stop();
-      
+      @log "using camera", @index, @videoSources[index]
+       
     navigator.getUserMedia({video: {
       optional: [{sourceId: @videoSources[index]}]
     }}, @success, @fallback);
@@ -191,7 +190,7 @@ class Intro extends Panel
     
     @loadModel(app_data.distortions[@index])
     super
-    
+     
   next: ->
      @navigate('/animals', trans: 'left')
      

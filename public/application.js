@@ -24003,6 +24003,9 @@ if (typeof JSON !== 'object') {
           if (window.requestAnimationFrame == null) {
             window.requestAnimationFrame = window.webkitRequestAnimationFrame;
           }
+          if (_this.videoSources.length > 1) {
+            _this.mediaIndex = 1;
+          }
           if (navigator.getUserMedia && _this.videoSources.length > 0) {
             return _this.getUserMedia(_this.mediaIndex);
           } else {
@@ -24012,12 +24015,15 @@ if (typeof JSON !== 'object') {
       })(this));
       $(window).resize((function(_this) {
         return function() {
-          if (_this.canvas) {
-            _this.canvas.attr('width', window.innerWidth).attr('height', window.innerHeight);
-          }
-          return _this.video.attr('width', window.innerWidth).attr('height', window.innerHeight);
+          return window.location.reload();
         };
       })(this));
+      $(window).on("orientationchange", (function(_this) {
+        return function() {
+          return window.location.reload();
+        };
+      })(this));
+      this.models = [];
       this.models = [];
     }
 
@@ -24102,6 +24108,7 @@ if (typeof JSON !== 'object') {
       if (this.stream) {
         this.video[0].src = null;
         this.stream.stop();
+        this.log("using camera", this.index, this.videoSources[index]);
       }
       return navigator.getUserMedia({
         video: {
@@ -24242,25 +24249,21 @@ if (typeof JSON !== 'object') {
     };
 
     App.prototype.set_lang = function(e) {
-      this.log(e);
-      this.navigate('/' + window.lang, {
-        trans: 'right'
-      });
-      window.lang = window.lang === 'en' ? 'et' : 'en';
-      this.lang = window.lang;
-      this.log(window.lang);
-      return this.intro.active();
+      var lang;
+      lang = window.lang === 'en' ? 'et' : 'en';
+      return top.location.href = top.location.pathname + "?" + lang;
     };
 
     App.prototype.restart = function(e) {
-      return this.navigate('/', {
-        trans: 'right'
-      });
+      return window.location.reload(true);
     };
 
     function App(params) {
       this.restart = bind(this.restart, this);
       this.set_lang = bind(this.set_lang, this);
+      var lang;
+      lang = location.search || "?et";
+      window.lang = lang.substr(1);
       App.__super__.constructor.apply(this, arguments);
       this.mic = null;
       this.app_data = params.data;
